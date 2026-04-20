@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc:*)",
+      "Bash(find \"/d/ebook-hub-next/client/ui\" -name \"*.tsx\" -exec grep -l \"View\\\\|view\\\\|see\\\\|See\" {} \\\\;)",
+      "Bash(echo \"EXIT:$?\")"
+    ]
+  }
+}

@@ -1,0 +1,268 @@
+@import "tailwindcss";
+
+@theme {
+  /* Fonts */
+  --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* ─── PulmoPrep Brand Palette ─── */
+  /* Navy Blue — Primary brand */
+  --color-primary: #1E3A5F;
+  --color-primary-hover: #162D4A;
+  --color-primary-light: #EBF0F7;
+  --color-primary-start: #1E3A5F;
+  --color-primary-end: #2A4F7A;
+
+  /* Sky Blue — Secondary accent */
+  --color-sky: #38BDF8;
+  --color-sky-light: #E0F2FE;
+
+  /* Peach — Warm highlights */
+  --color-peach: #F9A858;
+  --color-peach-light: #FFF5EB;
+  --color-peach-deep: #F08C38;
+
+  /* Orange — CTA / attention */
+  --color-orange: #F97316;
+  --color-orange-hover: #EA580C;
+  --color-orange-light: #FFF7ED;
+
+  /* Green — Success / verified */
+  --color-accent: #22C55E;
+  --color-accent-hover: #16A34A;
+  --color-accent-light: #F0FDF4;
+
+  --color-background: #FFFFFF;
+  --color-surface: #F8FAFC;
+  --color-surface-alt: #F1F5F9;
+  --color-border: #E2E8F0;
+  --color-border-hover: #CBD5E1;
+
+  /* Text — Black-based */
+  --color-text-main: #0F172A;
+  --color-text-body: #334155;
+  --color-text-muted: #64748B;
+  --color-text-light: #94A3B8;
+
+  /* Semantic Colors */
+  --color-success: #22C55E;
+  --color-warning: #F97316;
+  --color-error: #DC2626;
+
+  /* Base Utilities Compatibility */
+  --color-white: #ffffff;
+  --color-gray-200: #E2E8F0;
+  --color-gray-500: #64748B;
+  --color-gray-900: #0F172A;
+  --color-blue-400: #38BDF8;
+  --color-blue-500: #0EA5E9;
+  --color-blue-600: #1E3A5F;
+  --color-violet-400: #a78bfa;
+  --color-violet-500: #8b5cf6;
+  --color-violet-600: #7c3aed;
+
+  /* Radius */
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+
+  /* Shadows */
+  --shadow-glass: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-elevated: 0 10px 25px rgba(0, 0, 0, 0.08);
+  --shadow-primary: 0 4px 14px rgba(30, 58, 95, 0.18);
+
+  /* Animations */
+  --animate-fade-in: fadeIn 0.5s ease both;
+  --animate-slide-up: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-scale-in: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-toast-in: toastIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-toast-out: toastOut 0.22s cubic-bezier(0.4, 0, 1, 1) both;
+  --animate-float-slow: float-slow 8s ease-in-out infinite;
+  --animate-float-slower: float-slower 11s ease-in-out infinite;
+  --animate-drift-right: drift-right 9s ease-in-out infinite;
+  --animate-pulse-soft: pulse-soft 6s ease-in-out infinite;
+  --animate-airflow: airflow 4s ease-in-out infinite;
+  --animate-pulse-scroll: pulse-scroll 20s linear infinite;
+  --animate-bubble-rise: bubble-rise 6s ease-in-out infinite;
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes toastIn {
+    from { opacity: 0; transform: translateX(24px) scale(0.96); }
+    to { opacity: 1; transform: translateX(0) scale(1); }
+  }
+
+  @keyframes toastOut {
+    from { opacity: 1; transform: translateX(0) scale(1); }
+    to { opacity: 0; transform: translateX(24px) scale(0.96); }
+  }
+
+  @keyframes float-slow {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-18px) rotate(3deg); }
+  }
+
+  @keyframes float-slower {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(-2deg); }
+  }
+
+  @keyframes drift-right {
+    0%, 100% { transform: translateX(0) translateY(0); }
+    50% { transform: translateX(15px) translateY(-8px); }
+  }
+
+  @keyframes pulse-soft {
+    0%, 100% { opacity: 0.18; transform: scale(1); }
+    50% { opacity: 0.32; transform: scale(1.08); }
+  }
+
+  @keyframes airflow {
+    0% { transform: translateX(-10px) scaleX(0.8); opacity: 0; }
+    20% { opacity: 0.5; }
+    80% { opacity: 0.5; }
+    100% { transform: translateX(60px) scaleX(1.2); opacity: 0; }
+  }
+
+  @keyframes pulse-scroll {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0); }
+  }
+
+  @keyframes bubble-rise {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    10% { opacity: 0.9; }
+    80% { opacity: 0.7; }
+    100% { transform: translateY(-320px) translateX(12px); opacity: 0; }
+  }
+}
+
+/* ─── Global Base Reset ───────────────────────────────────────── */
+@layer base {
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    background-color: var(--color-background);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-text-body);
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: rgba(30, 58, 95, 0.2);
+    color: #0F172A;
+  }
+}
+
+/* ─── Global Utilities (Tailwind v4 Way) ────────────────────────── */
+
+@utility app-card {
+  @apply bg-white border border-[var(--color-border)] rounded-xl shadow-sm;
+}
+
+@utility glass-card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+@utility medical-card {
+  @apply glass-card;
+}
+
+@utility btn-primary {
+  background: var(--color-primary);
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-lg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-primary);
+}
+
+@utility btn-secondary {
+  background: var(--color-surface-alt);
+  color: var(--color-text-body);
+  border: 1px solid var(--color-border);
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-lg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+/* ─── Security: block printing ──────────────────────────────── */
+@media print {
+  * {
+    display: none !important;
+  }
+
+  body::after {
+    display: block !important;
+    content: "Printing is disabled for this content.";
+    font-size: 18px;
+    text-align: center;
+    padding: 4rem;
+    color: #111;
+  }
+}
+
+/* ─── Scrollbar styling ─────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-hover);
+  border-radius: 10px;
+  border: 2px solid var(--color-surface);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* ─── Custom Animations ─────────────────────────────────────── */
+@keyframes hero-zoom {
+  from { transform: scale(1.05); }
+  to { transform: scale(1); }
+}
+
+.animate-hero-zoom {
+  animation: hero-zoom 10s ease-out infinite alternate;
+}
+
+/* (Hero floating animations are registered inside @theme above) */
