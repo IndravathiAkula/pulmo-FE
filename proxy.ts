@@ -167,6 +167,11 @@ export async function proxy(req: NextRequest) {
   if (refresh) {
     try {
       const deviceFp = req.cookies.get(DEVICE_FP_COOKIE)?.value ?? "bff-edge";
+      // 8s hard cap — a cold backend (Render free tier cold-starts,
+      // network hiccup, proxy stall) must not freeze every user page
+      // behind a shared edge call. Matches the in-app interceptor's
+      // REFRESH_TIMEOUT_MS budget so behavior is symmetric across
+      // the two refresh paths.
       const res = await fetch(`${BACKEND_URL}/auth/refresh`, {
         method: "POST",
         headers: {
@@ -178,6 +183,7 @@ export async function proxy(req: NextRequest) {
           deviceFingerprint: deviceFp,
         }),
         cache: "no-store",
+        signal: AbortSignal.timeout(8_000),
       });
 
       if (res.ok) {

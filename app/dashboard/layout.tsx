@@ -1,19 +1,3 @@
-/**
- * Dashboard layout — full-width structure with a left-edge sidebar.
- *
- * Structure on desktop (lg+):
- *   ┌──────────────── NavigationBar ────────────────┐
- *   ├────────┬─────────────────────────────────────────┤
- *   │Sidebar │         Content area                  │
- *   │(white) │   (scrollable, padded, max-width)     │
- *   │        │                                       │
- *   ├────────┴─────────────────────────────────────────┤
- *   └──────────────────── Footer ──────────────────────┘
- *
- * The sidebar sits at the very left edge of the screen, NOT inside
- * a max-width container, so it feels like a true app rail.
- */
-
 import { redirect } from "next/navigation";
 import { getSession } from "@/server/auth/auth.session";
 import { NavigationBar } from "@/client/ui/navigation/NavigationBar";
@@ -22,6 +6,15 @@ import {
   DashboardSidebar,
   type SidebarSection,
 } from "@/client/ui/dashboard/DashboardSidebar";
+
+/**
+ * Every `/dashboard/*` route depends on the authenticated user's cookies
+ * and backend calls — none of them are safe to prerender. Declaring
+ * dynamic explicitly stops `next build` from attempting static generation
+ * (which otherwise hits the backend at build time and fails when the
+ * backend is cold or unreachable).
+ */
+export const dynamic = "force-dynamic";
 
 function buildSidebar(opts: {
   isAuthor: boolean;
