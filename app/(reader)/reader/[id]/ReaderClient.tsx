@@ -7,10 +7,14 @@
  * mock-array lookup). Uses:
  *   - `useSession()` for auth (not the stale `useAuthStore`)
  *   - `useOwnedBooks()` for ownership (not the stale `usePaymentStore`)
- *   - `bookData.pdfUrl` directly for the PDF source (not the `/api/pdf/` proxy)
+ *   - `/api/pdf/[id]` BFF proxy for the PDF source. The raw backend URL
+ *     in `bookData.pdfUrl` can't be fetched directly from the browser —
+ *     it's Bearer-gated on the backend and the browser has no way to
+ *     attach our HttpOnly token cross-origin. The Route Handler runs
+ *     server-side, re-verifies ownership, and streams the bytes back.
  *
- * The PDF is still fetched as a blob to create a `blob:` URL — this
- * prevents the raw backend URL from being visible in the viewer iframe,
+ * The PDF is still wrapped in a `blob:` URL after download — this
+ * prevents the raw file URL from being visible in the viewer iframe,
  * adding a light DRM layer consistent with the original design.
  */
 
@@ -85,7 +89,11 @@ export function ReaderClient({ id, bookData }: ReaderClientProps) {
     setLoadingPdf(true);
     setPdfError(false);
 
-    fetch(bookData.pdfUrl)
+    // Go through the BFF proxy so the server-side handler can attach
+    // the Bearer token to the backend file request. A direct fetch of
+    // `bookData.pdfUrl` would 403 — the backend requires auth on book
+    // files and cross-origin browser fetches can't carry our cookies.
+    fetch(`/api/pdf/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to load PDF");
         return res.arrayBuffer();
@@ -109,7 +117,7 @@ export function ReaderClient({ id, bookData }: ReaderClientProps) {
       active = false;
       if (blobUrl) URL.revokeObjectURL(blobUrl);
     };
-  }, [mounted, bookData?.pdfUrl, isAuthenticated, purchased]);
+  }, [mounted, id, bookData?.pdfUrl, isAuthenticated, purchased]);
 
   // ── Book not found ──────────────────────────────────────────
   if (!bookData) {
