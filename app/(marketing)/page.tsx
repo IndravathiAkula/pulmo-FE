@@ -86,6 +86,7 @@ export default async function Home() {
         authorName={author.name}
         authorTitle={author.title}
         tagline={PLATFORM.tagline}
+        doctorImageUrl={author.profileUrl}
       />
 
       {/* ─────────────────── 2. RECENTLY VIEWED ─────────────────── */}
