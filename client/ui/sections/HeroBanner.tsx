@@ -55,6 +55,8 @@ export interface HeroBannerProps {
   tagline: string;
   /** Short list of offering labels shown as checkmark chips. */
   offerings?: string[];
+  /** Resolved absolute URL for the doctor image from the API. Falls back to the default asset when null. */
+  doctorImageUrl?: string | null;
 }
 
 export const HeroBanner: React.FC<HeroBannerProps> = ({
@@ -62,7 +64,9 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
   authorTitle,
   tagline,
   offerings = ["Study Materials", "Practice Questions", "Expert Guidance"],
+  doctorImageUrl,
 }) => {
+  const imageSrc = doctorImageUrl ?? '/assets/Doctor_v3.png';
   return (
     <section
       className="relative w-full overflow-hidden rounded-2xl mb-8"
@@ -150,12 +154,13 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
           <div className="absolute bottom-0 right-0 w-[350px] h-[350px] rounded-full blur-3xl pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(30,58,95,0.06) 0%, rgba(249,168,88,0.08) 50%, transparent 100%)' }} />
           <div className="hidden lg:flex items-end justify-center flex-shrink-0 w-[380px] relative -mt-8">
             <Image
-              src="/assets/doctor.png"
+              src={imageSrc}
               alt={`${authorName} — ${authorTitle}`}
               width={380}
               height={520}
               className="relative z-10 w-full object-contain object-bottom select-none mix-blend-multiply"
               priority
+              unoptimized={Boolean(doctorImageUrl)}
             />
           </div>
         </div>
