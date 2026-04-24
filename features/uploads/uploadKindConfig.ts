@@ -63,22 +63,35 @@ export function formatBytes(bytes: number): string {
   return `${(bytes / MB).toFixed(1)} MB`;
 }
 
+export type UploadValidationError = {
+  reason: "mime" | "size";
+  message: string;
+};
+
 /**
  * Validate a file against a kind's rules. Returns `null` on success
- * or a human-readable error message on failure.
+ * or a structured error describing what failed. The `reason` lets
+ * callers react differently to size vs. MIME failures (e.g. surface
+ * a modal warning on oversize).
  */
 export function validateUpload(
   file: File,
   kind: UploadKind
-): string | null {
+): UploadValidationError | null {
   const rules = UPLOAD_KIND_CONFIG[kind];
   if (!rules.mimeTypes.includes(file.type)) {
-    return `${rules.label} must be one of: ${rules.mimeTypes
-      .map((m) => m.replace(/^.+\//, ""))
-      .join(", ")}`;
+    return {
+      reason: "mime",
+      message: `${rules.label} must be one of: ${rules.mimeTypes
+        .map((m) => m.replace(/^.+\//, ""))
+        .join(", ")}`,
+    };
   }
   if (file.size > rules.maxBytes) {
-    return `${rules.label} exceeds the ${formatBytes(rules.maxBytes)} cap (got ${formatBytes(file.size)})`;
+    return {
+      reason: "size",
+      message: `${rules.label} exceeds the ${formatBytes(rules.maxBytes)} cap (got ${formatBytes(file.size)})`,
+    };
   }
   return null;
 }

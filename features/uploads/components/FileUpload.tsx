@@ -27,9 +27,11 @@ import {
   X,
   FileText,
   Image as ImageIcon,
+  AlertTriangle,
 } from "lucide-react";
 import type { UploadKind } from "@/server/api/apiTypes";
 import { useToast } from "@/client/ui/feedback/ToastProvider";
+import { Modal } from "@/client/ui/Modal";
 import {
   UPLOAD_KIND_CONFIG,
   formatBytes,
@@ -91,12 +93,20 @@ export function FileUpload({
       ? { kind: "uploaded", url: initialUrl, isInitial: true }
       : { kind: "idle" }
   );
+  const [oversizeWarning, setOversizeWarning] = useState<{
+    filename: string;
+    fileSize: number;
+  } | null>(null);
 
   const handlePick = (file: File) => {
     const error = validateUpload(file, kind);
     if (error) {
-      setStatus({ kind: "error", message: error });
-      toast.error(error);
+      setStatus({ kind: "error", message: error.message });
+      if (error.reason === "size") {
+        setOversizeWarning({ filename: file.name, fileSize: file.size });
+      } else {
+        toast.error(error.message);
+      }
       return;
     }
 
@@ -272,6 +282,49 @@ export function FileUpload({
           {status.message}
         </p>
       )}
+
+      <Modal
+        open={oversizeWarning !== null}
+        onClose={() => setOversizeWarning(null)}
+        title="File size exceeded"
+        subtitle={`${rules.label} must be ${formatBytes(rules.maxBytes)} or smaller`}
+        size="sm"
+        footer={
+          <button
+            type="button"
+            onClick={() => {
+              setOversizeWarning(null);
+              inputRef.current?.click();
+            }}
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold text-white bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] transition-colors"
+          >
+            <Upload className="w-3.5 h-3.5" />
+            Choose another file
+          </button>
+        }
+      >
+        <div className="flex items-start gap-3">
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 bg-[var(--color-peach-light)] text-[var(--color-peach-deep)]">
+            <AlertTriangle className="w-5 h-5" />
+          </div>
+          <div className="min-w-0 text-sm text-[var(--color-text-body)] leading-relaxed">
+            <p className="font-semibold text-[var(--color-text-main)] break-words">
+              {oversizeWarning?.filename}
+            </p>
+            <p className="mt-1">
+              This file is{" "}
+              <span className="font-bold text-[var(--color-error)]">
+                {oversizeWarning ? formatBytes(oversizeWarning.fileSize) : ""}
+              </span>
+              , which is larger than the{" "}
+              <span className="font-bold">
+                {formatBytes(rules.maxBytes)}
+              </span>{" "}
+              limit. Please upload a smaller image.
+            </p>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }
