@@ -17,17 +17,26 @@ jobs:
   review:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out the PR (target repo)
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Check out the AI reviewer
+        uses: actions/checkout@v4
+        with:
+          repository: https://github.com/IndravathiAkula/pulmo-FE.git
+          ref: main
+          path: .ai-reviewer
 
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: pip
+          cache-dependency-path: .ai-reviewer/requirements.txt
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+      - name: Install reviewer deps
+        run: pip install -r .ai-reviewer/requirements.txt
 
       - name: Run AI review
         env:
@@ -43,11 +52,8 @@ jobs:
           REVIEWER_RETRY_BASE_SECONDS: "1.0"
           REVIEWER_POST_SUMMARY: "true"
           REVIEWER_ARTIFACT_PATH: ai-review-run.json
-          # Extra glob patterns to never send to the model (comma-separated).
-          # Built-in defaults already block .env, *.pem/*.key/id_rsa, and
-          # secrets/, credentials/, .ssh/ directories.
           REVIEWER_BLOCK_PATTERNS: ""
-        run: python scripts/review_pr.py
+        run: python .ai-reviewer/scripts/review_pr.py
 
       - name: Upload run artifact
         if: always()
