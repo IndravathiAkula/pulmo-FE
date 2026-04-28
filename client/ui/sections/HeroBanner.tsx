@@ -78,17 +78,17 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
         <div className="absolute top-1/2 right-0 w-96 h-96 rounded-full blur-3xl animate-pulse-soft" style={{ backgroundColor: 'rgba(212, 229, 247, 0.25)', animationDelay: '3s' }} />
         <div className="absolute -bottom-10 left-1/3 w-64 h-64 rounded-full blur-3xl animate-pulse-soft" style={{ backgroundColor: 'rgba(245, 213, 224, 0.20)', animationDelay: '1.5s' }} />
 
-        {/* <LungSvg
+        <LungSvg
           className="absolute w-32 h-32 animate-float-slow"
           style={{ color: 'rgba(249, 168, 88, 0.48)', top: '0%', left: '0%' }}
-        /> */}
+        />
 
-        {/* <div className="absolute bottom-2 left-0 w-full lg:w-[70%] overflow-hidden h-10">
+        <div className="absolute bottom-2 left-0 w-full lg:w-[70%] overflow-hidden h-10">
           <div className="flex w-[200%] h-full animate-pulse-scroll">
             <HeartbeatLine className="w-1/2 h-full flex-shrink-0" style={{ color: 'rgba(30, 58, 95, 0.20)' }} />
             <HeartbeatLine className="w-1/2 h-full flex-shrink-0" style={{ color: 'rgba(30, 58, 95, 0.20)' }} />
           </div>
-        </div> */}
+        </div>
 
         <OxygenBubble className="absolute w-5 h-5 animate-bubble-rise"   style={{ color: 'rgba(56, 189, 248, 0.60)', bottom: '2%', left: '8%',  animationDelay: '0s'   }} />
         <OxygenBubble className="absolute w-4 h-4 animate-bubble-rise"   style={{ color: 'rgba(34, 197, 94, 0.55)',  bottom: '2%', left: '20%', animationDelay: '3.2s' }} />
@@ -101,10 +101,10 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
         <OxygenBubble className="absolute w-7 h-7 animate-bubble-rise"   style={{ color: 'rgba(249, 168, 88, 0.70)', bottom: '2%', left: '68%', animationDelay: '2.8s' }} />
         <OxygenBubble className="absolute w-4 h-4 animate-bubble-rise"   style={{ color: 'rgba(30, 58, 95, 0.55)',   bottom: '2%', left: '54%', animationDelay: '5.0s' }} />
 
-        {/* <LungSvg
+        <LungSvg
           className="absolute w-24 h-24 rotate-12 animate-float-slower"
           style={{ color: 'rgba(30, 58, 95, 0.13)', top: '10%', left: '60%' }}
-        /> */}
+        />
       </div>
 
       {/* ── Main Content ── */}
