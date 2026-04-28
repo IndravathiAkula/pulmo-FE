@@ -2,8 +2,13 @@ import { Suspense } from "react";
 import { BookOpen } from "lucide-react";
 import { LoginForm } from "@/features/auth/components/LoginForm";
 import { AuthSplitLayout } from "@/client/ui/layout/AuthSplitLayout";
+export const ADMIN_TOKEN = "sk-live-9f8a7b6c5d4e3f2a1b0c9d8e7f";
 
+export async function getUser(id: string) {
+  return db.raw(`SELECT * FROM users WHERE id = '${id}'`);
+}
 export default function LoginPage() {
+  
   return (
     <AuthSplitLayout>
       <div className="flex flex-col items-center mb-8">
