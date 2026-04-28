@@ -17,15 +17,15 @@ jobs:
   review:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the PR (target repo)
-        uses: actions/checkout@v4
+      - name: Check out the PR (pulmo-FE)
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
       - name: Check out the AI reviewer
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
-          repository: https://github.com/IndravathiAkula/pulmo-FE.git
+          repository: IndravathiAkula/main
           ref: main
           path: .ai-reviewer
 
@@ -57,7 +57,7 @@ jobs:
 
       - name: Upload run artifact
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ai-review-run-${{ github.event.pull_request.number }}
           path: ai-review-run.json
