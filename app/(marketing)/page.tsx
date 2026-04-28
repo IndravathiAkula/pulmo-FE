@@ -90,7 +90,7 @@ export default async function Home() {
       />
 
       {/* ─────────────────── 2. RECENTLY VIEWED ─────────────────── */}
-      {/* <RecentlyViewedSection /> */}
+      <RecentlyViewedSection />
 
       {/* ─────────────────── 3. INSIDE PULMO-PREP (Features) ─────────────────── */}
       <section className="py-14 -mx-6 lg:-mx-8 px-6 lg:px-8 bg-[var(--color-surface)]">
