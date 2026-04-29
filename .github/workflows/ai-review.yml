@@ -17,6 +17,13 @@ jobs:
   review:
     runs-on: ubuntu-latest
     steps:
+      - name: Mint app installation token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.REVIEWER_APP_ID }}
+          private-key: ${{ secrets.REVIEWER_APP_PRIVATE_KEY }}
+
       - name: Check out the PR (pulmo-FE)
         uses: actions/checkout@v5
         with:
@@ -40,7 +47,7 @@ jobs:
 
       - name: Run AI review
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           MODEL: openai/gpt-4o-mini
